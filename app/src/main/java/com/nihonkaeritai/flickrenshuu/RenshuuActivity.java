@@ -12,7 +12,7 @@ import com.nihonkaeritai.flickrenshuu.utility.FancyCountdownTimer;
 
 import java.util.Random;
 
-//TODO: Settings screen for FancyCountdownTimer duration, etc
+//TODO: Settings screen for timer duration, etc
 //TODO: Fancypants splashcreen, first-time setup (time pref etc)
 //TODO: Scoring (Time, accuracy, combo/streaks, etc)
 //TODO: Good grafix (JUICE! LENS FLARE! VIBRATION!)
@@ -29,6 +29,7 @@ public class RenshuuActivity extends AppCompatActivity {
     private TextView kanaKey;
     private TextView chisaiIndicator;
     private EditText userInput;
+    private final long DURATION = 3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,13 @@ public class RenshuuActivity extends AppCompatActivity {
 
         kanaRepository = new KanaRepository(this.getBaseContext());
 
-        timer = new FancyCountdownTimer(3000,this);
+        timer = new FancyCountdownTimer(DURATION,this){
+            @Override
+            public void onFinish() {
+                userInput.setText("");
+                generateRandomKana();
+            }
+        };
 
         kanaKey = (TextView)findViewById(R.id.kanaKey);
         chisaiIndicator = (TextView)findViewById(R.id.chisaiIndicator);
@@ -49,17 +56,10 @@ public class RenshuuActivity extends AppCompatActivity {
 
     private void startTextWatcher(final EditText userInput) {
         userInput.addTextChangedListener(new TextWatcher() {
-
             @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-
+            public void afterTextChanged(Editable s) {}
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(s.length() > 0) {
@@ -77,6 +77,7 @@ public class RenshuuActivity extends AppCompatActivity {
         }else if(userInputAsString.length() > kanaKeyAsString.length()){
             clearInputField();
         }
+        timer.start();
     }
 
     //TODO: Improve kana picking method
@@ -90,7 +91,6 @@ public class RenshuuActivity extends AppCompatActivity {
         }else{
             chisaiIndicator.setText("");
         }
-        timer.reset();
     }
 
     private void clearInputField(){

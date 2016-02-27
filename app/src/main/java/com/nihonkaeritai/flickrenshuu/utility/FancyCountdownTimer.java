@@ -5,64 +5,35 @@ import android.widget.TextView;
 
 import com.nihonkaeritai.flickrenshuu.R;
 
-public class FancyCountdownTimer {
-    private TextView _timeTextView;
+public abstract class FancyCountdownTimer extends CountDownTimer {
+    private TextView timeTextView;
     private long timeRemaining;
-    public static CountDownTimer timer;
-    private long _duration;
 
-    public FancyCountdownTimer(long duration, AppCompatActivity activity) {
-        _timeTextView = (TextView)activity.findViewById(R.id.timer);
-        _duration = duration;
-        initializeTimer();
+    public FancyCountdownTimer(Long duration, AppCompatActivity activity){
+        super(duration,10);
+
+        timeTextView = (TextView)activity.findViewById(R.id.timer);
+        timeRemaining = duration;
     }
 
-    private void initializeTimer() {
-        timeRemaining = _duration;
-        timer = new CountDownTimer(_duration, 1) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                timeRemaining = millisUntilFinished;
-                displayTime();
-            }
-
-            @Override
-            public void onFinish() {
-                _timeTextView.setText("0");
-
-            }
-        };
+    @Override
+    public void onTick(long millisUntilFinished) {
+        timeRemaining = millisUntilFinished;
+        displayTime();
     }
 
-    public void kill(){
-        timer.cancel();
-    }
-
-    public void reset(){
-        kill();
-        start();
-    }
-
-    public void start(){
-        timer.start();
-    }
-
-    public boolean isFinished(){
-        return timeRemaining >= 0;
-    }
-
-    public long getTimeRemaining(){
-        return timeRemaining;
+    public interface onFinish{
     }
 
     public void displayTime(){
-        _timeTextView.setText(timeRemainingToString());
+        timeTextView.setText(timeRemainingToFormattedString());
     }
 
-    private String timeRemainingToString(){
-        String seconds = String.valueOf(timeRemaining / 1000 + 1);
-        //String millis = String.valueOf(timeRemaining / 100) + String.valueOf(timeRemaining / 10);
-        return seconds;// + ":" + millis;
-    }
+    public String timeRemainingToFormattedString(){
+        long seconds = timeRemaining / 1000;
+        long tenths = (timeRemaining - seconds * 1000) / 100;
+        long hundredths = ((timeRemaining - seconds * 1000) - tenths * 100) / 10;
 
+        return seconds + ":" + tenths + hundredths;
+    }
 }
