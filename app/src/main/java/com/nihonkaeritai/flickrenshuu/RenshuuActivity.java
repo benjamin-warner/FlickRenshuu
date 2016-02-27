@@ -37,6 +37,8 @@ public class RenshuuActivity extends AppCompatActivity {
 
         kanaRepository = new KanaRepository(this.getBaseContext());
 
+        timer = new FancyCountdownTimer(3000,this);
+
         kanaKey = (TextView)findViewById(R.id.kanaKey);
         chisaiIndicator = (TextView)findViewById(R.id.chisaiIndicator);
         generateRandomKana();
@@ -88,7 +90,7 @@ public class RenshuuActivity extends AppCompatActivity {
         }else{
             chisaiIndicator.setText("");
         }
-        timer = new FancyCountdownTimer(3000,this);
+        timer.reset();
     }
 
     private void clearInputField(){

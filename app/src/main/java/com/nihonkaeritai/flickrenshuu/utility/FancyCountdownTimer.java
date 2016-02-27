@@ -8,7 +8,7 @@ import com.nihonkaeritai.flickrenshuu.R;
 public class FancyCountdownTimer {
     private TextView _timeTextView;
     private long timeRemaining;
-    public CountDownTimer timer;
+    public static CountDownTimer timer;
     private long _duration;
 
     public FancyCountdownTimer(long duration, AppCompatActivity activity) {
@@ -31,7 +31,20 @@ public class FancyCountdownTimer {
                 _timeTextView.setText("0");
 
             }
-        }.start();
+        };
+    }
+
+    public void kill(){
+        timer.cancel();
+    }
+
+    public void reset(){
+        kill();
+        start();
+    }
+
+    public void start(){
+        timer.start();
     }
 
     public boolean isFinished(){
