@@ -10,8 +10,6 @@ import android.widget.TextView;
 import com.nihonkaeritai.flickrenshuu.repositories.KanaRepository;
 import com.nihonkaeritai.flickrenshuu.utility.FancyCountdownTimer;
 
-import java.util.Random;
-
 //TODO: Settings screen for timer duration, etc
 //TODO: Fancypants splashcreen, first-time setup (time pref etc)
 //TODO: Scoring (Time, accuracy, combo/streaks, etc)
@@ -25,7 +23,6 @@ import java.util.Random;
 
 public class RenshuuActivity extends AppCompatActivity {
     private FancyCountdownTimer timer;
-    private KanaRepository kanaRepository;
     private TextView kanaKey;
     private TextView chisaiIndicator;
     private EditText userInput;
@@ -35,8 +32,6 @@ public class RenshuuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_renshuu);
-
-        kanaRepository = new KanaRepository(this.getBaseContext());
 
         timer = new FancyCountdownTimer(DURATION,this){
             @Override
@@ -49,6 +44,8 @@ public class RenshuuActivity extends AppCompatActivity {
 
         kanaKey = (TextView)findViewById(R.id.kanaKey);
         chisaiIndicator = (TextView)findViewById(R.id.chisaiIndicator);
+
+        KanaRepository.initialize(this);
         generateRandomKana();
 
         userInput = (EditText)findViewById(R.id.userInput);
@@ -80,13 +77,11 @@ public class RenshuuActivity extends AppCompatActivity {
         }
     }
 
-    //TODO: Improve kana picking method
     private void generateRandomKana(){
-        int randomIndex = new Random().nextInt(kanaRepository.getLength());
-        String randomString = kanaRepository.kanaArray[randomIndex];
-        kanaKey.setText(randomString);
+        String nextKana = KanaRepository.getNextKana();
+        kanaKey.setText(nextKana);
 
-        if(kanaRepository.isIndexChisaiKana(randomIndex)){
+        if(KanaRepository.isIndexChisaiKana()){
             chisaiIndicator.setText(getString(R.string.chisai));
         }else{
             chisaiIndicator.setText("");

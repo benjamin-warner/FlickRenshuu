@@ -4,23 +4,42 @@ import android.content.Context;
 
 import com.nihonkaeritai.flickrenshuu.R;
 
+import java.util.Random;
+
 public class KanaRepository {
-    public static String[] kanaArray;
-    public static final int NUMBER_OF_CHISAI_KANA = 9;
+    private static final int NUMBER_OF_CHISAI_KANA = 8;
+    private static String[] kanaArray;
+    private static int[] kanaOrder;
+    private static int currentKana;
 
-    public KanaRepository(Context context){
+    public static void initialize(Context context){
         kanaArray = context.getResources().getStringArray(R.array.kana);
+
+        kanaOrder = new int[80];
+        for(int i = 0; i < 80; i++){
+            kanaOrder[i] = i;
+        }
+        currentKana = kanaOrder.length - 1;
     }
 
-    public int getLength(){
-        return kanaArray.length;
+    public static String getNextKana(){
+        if(currentKana == kanaOrder.length - 1)
+            generateOrderCombination();
+        return kanaArray[kanaOrder[currentKana++]];
     }
 
-    public int getNumberOfChisaiKana(){
-        return NUMBER_OF_CHISAI_KANA;
+    private static void generateOrderCombination(){
+        Random random = new Random();
+        for(int i = kanaArray.length - 1; i > 0; i--){
+            int randomIndex = random.nextInt((i+1));
+            int old = kanaOrder[randomIndex];
+            kanaOrder[randomIndex] = kanaOrder[i];
+            kanaOrder[i] = old;
+        }
+        currentKana = 0;
     }
 
-    public boolean isIndexChisaiKana(int index){
-        return index >= getLength() - getNumberOfChisaiKana();
+    public static boolean isIndexChisaiKana(){
+        return currentKana >= kanaArray.length - NUMBER_OF_CHISAI_KANA;
     }
 }
