@@ -10,17 +10,6 @@ import android.widget.TextView;
 import com.nihonkaeritai.flickrenshuu.repositories.KanaRepository;
 import com.nihonkaeritai.flickrenshuu.utility.FancyCountdownTimer;
 
-//TODO: Settings screen for timer duration, etc
-//TODO: Fancypants splashcreen, first-time setup (time pref etc)
-//TODO: Scoring (Time, accuracy, combo/streaks, etc)
-//TODO: Good grafix (JUICE! LENS FLARE! VIBRATION!)
-//TODO: Mapper class: phonetic -> kana
-//TODO: Words!
-//TODO: Complete sentence capability
-//TODO: Random sentence gen?
-//TODO: Strict mode (Erases input on typo)
-//TODO: Kanji capability
-
 public class RenshuuActivity extends AppCompatActivity {
     private FancyCountdownTimer timer;
     private TextView kanaKey;
