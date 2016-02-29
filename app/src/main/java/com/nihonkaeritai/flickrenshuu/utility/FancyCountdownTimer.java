@@ -23,6 +23,11 @@ public abstract class FancyCountdownTimer extends CountDownTimer {
     }
 
     public interface onFinish{
+
+    }
+
+    public void setDisplay(String text){
+        timeTextView.setText(text);
     }
 
     public void displayTime(){

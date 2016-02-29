@@ -42,6 +42,7 @@ public class RenshuuActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 userInput.setText("");
+                timer.setDisplay("0:00");
                 generateRandomKana();
             }
         };
@@ -77,7 +78,6 @@ public class RenshuuActivity extends AppCompatActivity {
         }else if(userInputAsString.length() > kanaKeyAsString.length()){
             clearInputField();
         }
-        timer.start();
     }
 
     //TODO: Improve kana picking method
@@ -91,6 +91,7 @@ public class RenshuuActivity extends AppCompatActivity {
         }else{
             chisaiIndicator.setText("");
         }
+        timer.start();
     }
 
     private void clearInputField(){
