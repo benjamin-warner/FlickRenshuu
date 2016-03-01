@@ -1,10 +1,17 @@
 package com.nihonkaeritai.flickrenshuu;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nihonkaeritai.flickrenshuu.repositories.KanaRepository;
@@ -22,6 +29,41 @@ public class RenshuuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_renshuu);
 
+        kanaKey = (TextView)findViewById(R.id.kanaKey);
+        chisaiIndicator = (TextView)findViewById(R.id.chisaiIndicator);
+
+        userInput = (EditText)findViewById(R.id.userInput);
+
+        userInput.setVisibility(EditText.INVISIBLE);
+        chisaiIndicator.setVisibility(TextView.INVISIBLE);
+
+        KanaRepository.initialize(this);
+
+        waitForTapToStart();
+    }
+
+    private void setVisible(){
+        userInput.setVisibility(EditText.VISIBLE);
+        chisaiIndicator.setVisibility(TextView.VISIBLE);
+    }
+
+    private void waitForTapToStart() {
+        final RelativeLayout tapToStart = (RelativeLayout)findViewById(R.id.mainLayout);
+        tapToStart.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                TextView startMessage = (TextView) findViewById(R.id.pushToStartText);
+                startMessage.setVisibility(TextView.INVISIBLE);
+                setVisible();
+                startTextWatcher();
+                startTimer();
+                generateRandomKana();
+                return false;
+            }
+        });
+    }
+
+    private void startTimer() {
         timer = new FancyCountdownTimer(DURATION,this){
             @Override
             public void onFinish() {
@@ -30,18 +72,13 @@ public class RenshuuActivity extends AppCompatActivity {
                 generateRandomKana();
             }
         };
-
-        kanaKey = (TextView)findViewById(R.id.kanaKey);
-        chisaiIndicator = (TextView)findViewById(R.id.chisaiIndicator);
-
-        KanaRepository.initialize(this);
-        generateRandomKana();
-
-        userInput = (EditText)findViewById(R.id.userInput);
-        startTextWatcher(userInput);
     }
 
-    private void startTextWatcher(final EditText userInput) {
+    private void startTextWatcher() {
+        if(userInput.requestFocus()) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(userInput, InputMethodManager.SHOW_IMPLICIT);
+        }
         userInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {}
