@@ -4,13 +4,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,12 +29,12 @@ public class RenshuuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_renshuu);
 
         kanaKey = (TextView)findViewById(R.id.kanaKey);
+
         chisaiIndicator = (TextView)findViewById(R.id.chisaiIndicator);
+        chisaiIndicator.setVisibility(TextView.INVISIBLE);
 
         userInput = (EditText)findViewById(R.id.userInput);
-
         userInput.setVisibility(EditText.INVISIBLE);
-        chisaiIndicator.setVisibility(TextView.INVISIBLE);
 
         KanaRepository.initialize(this);
 
@@ -108,9 +107,9 @@ public class RenshuuActivity extends AppCompatActivity {
         kanaKey.setText(nextKana);
 
         if(KanaRepository.isIndexChisaiKana()){
-            chisaiIndicator.setText(getString(R.string.chisai));
+            chisaiIndicator.setVisibility(View.INVISIBLE);
         }else{
-            chisaiIndicator.setText("");
+            chisaiIndicator.setVisibility(View.VISIBLE);
         }
         timer.start();
     }

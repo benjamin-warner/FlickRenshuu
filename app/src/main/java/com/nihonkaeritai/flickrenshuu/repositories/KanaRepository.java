@@ -25,7 +25,9 @@ public class KanaRepository {
     public static String getNextKana(){
         if(currentKana == kanaOrder.length - 1)
             generateOrderCombination();
-        return kanaArray[kanaOrder[currentKana++]];
+        String thisKana = kanaArray[kanaOrder[currentKana]];
+        currentKana++;
+        return thisKana;
     }
 
     private static void generateOrderCombination(){
@@ -40,6 +42,6 @@ public class KanaRepository {
     }
 
     public static boolean isIndexChisaiKana(){
-        return currentKana >= kanaArray.length - NUMBER_OF_CHISAI_KANA;
+        return kanaOrder[currentKana-1] <= kanaArray.length - NUMBER_OF_CHISAI_KANA;
     }
 }
