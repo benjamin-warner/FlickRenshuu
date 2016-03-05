@@ -1,6 +1,7 @@
 package com.nihonkaeritai.flickrenshuu.repositories;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.nihonkaeritai.flickrenshuu.R;
 
@@ -42,6 +43,6 @@ public class KanaRepository {
     }
 
     public static boolean isIndexChisaiKana(){
-        return kanaOrder[currentKana-1] <= kanaArray.length - NUMBER_OF_CHISAI_KANA;
+        return kanaOrder[currentKana-1] >= kanaArray.length - 1 - NUMBER_OF_CHISAI_KANA;
     }
 }

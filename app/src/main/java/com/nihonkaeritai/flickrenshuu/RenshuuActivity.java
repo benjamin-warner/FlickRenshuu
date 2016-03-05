@@ -107,9 +107,9 @@ public class RenshuuActivity extends AppCompatActivity {
         kanaKey.setText(nextKana);
 
         if(KanaRepository.isIndexChisaiKana()){
-            chisaiIndicator.setVisibility(View.INVISIBLE);
-        }else{
             chisaiIndicator.setVisibility(View.VISIBLE);
+        }else{
+            chisaiIndicator.setVisibility(View.INVISIBLE);
         }
         timer.start();
     }
