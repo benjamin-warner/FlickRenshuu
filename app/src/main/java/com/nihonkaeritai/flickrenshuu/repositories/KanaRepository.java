@@ -1,6 +1,6 @@
 package com.nihonkaeritai.flickrenshuu.repositories;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,12 +12,14 @@ public class KanaRepository {
     private Kana[] kanaDictionary;
     private int[] kanaOrder;
     private int currentKana;
+    private TextView kanaKey;
     private TextView chisaiIndicator;
 
-    public KanaRepository(AppCompatActivity context){
+    public KanaRepository(Context context, View keyView, View chisaiIndicatorView){
         initializeKanaDictionary(context);
 
-        chisaiIndicator = (TextView)context.findViewById(R.id.chisaiIndicator);
+        kanaKey = (TextView)keyView;
+        chisaiIndicator = (TextView)chisaiIndicatorView;
 
         kanaOrder = new int[80];
         for(int i = 0; i < 80; i++){
@@ -26,7 +28,7 @@ public class KanaRepository {
         currentKana = kanaOrder.length - 1;
     }
 
-    private void initializeKanaDictionary(AppCompatActivity context){
+    private void initializeKanaDictionary(Context context){
         String[] kanaArray;
         kanaArray = context.getResources().getStringArray(R.array.kana);
 
@@ -40,15 +42,11 @@ public class KanaRepository {
             //71-79 are chisai
             else if( i >= 71)
                 kana.isChisai = true;
-            else{
-                kana.hasDiacritical = false;
-                kana.isChisai = false;
-            }
             kanaDictionary[i] = kana;
         }
     }
 
-    public String getNextKana(){
+    public void getNextKana(){
         if(currentKana == kanaOrder.length - 1)
             generateOrderCombination();
         if(kanaDictionary[kanaOrder[currentKana]].isChisai)
@@ -58,7 +56,7 @@ public class KanaRepository {
 
         String thisKana = kanaDictionary[kanaOrder[currentKana]].kana;
         currentKana++;
-        return thisKana;
+         kanaKey.setText(thisKana);
     }
 
     public boolean inputIsEqualToKey(String input){

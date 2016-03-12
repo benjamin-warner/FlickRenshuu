@@ -9,7 +9,7 @@ public abstract class FancyCountdownTimer extends CountDownTimer {
     private TextView timeTextView;
     private long timeRemaining;
 
-    public FancyCountdownTimer(Long duration, AppCompatActivity activity){
+    public FancyCountdownTimer(long duration, AppCompatActivity activity){
         super(duration,10);
 
         timeTextView = (TextView)activity.findViewById(R.id.timer);
