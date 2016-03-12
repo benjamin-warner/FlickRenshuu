@@ -55,7 +55,7 @@
             android:gravity="center"
             android:id="@+id/userInput"
             android:inputType="text"
-            android:imeOptions="actionSend"/>
+            android:imeOptions="actionDone"/>
 
     </LinearLayout>
 

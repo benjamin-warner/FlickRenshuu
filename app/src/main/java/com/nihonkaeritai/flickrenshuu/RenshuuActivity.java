@@ -24,9 +24,6 @@ public class RenshuuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_renshuu);
 
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(findViewById(R.id.userInput), InputMethodManager.SHOW_IMPLICIT);
-
         kanaRepository = new KanaRepository(this.getApplicationContext(), findViewById(R.id.kanaKey), findViewById(R.id.chisaiIndicator));
 
         waitForTapToStart();
@@ -62,6 +59,7 @@ public class RenshuuActivity extends AppCompatActivity {
         startFancyInputWatcher();
         initTimer();
         kanaRepository.getNextKana();
+        openKeyboard();
         timer.start();
     }
 
@@ -81,5 +79,10 @@ public class RenshuuActivity extends AppCompatActivity {
             kanaRepository.getNextKana();
             timer.start();
         }
+    }
+
+    private void openKeyboard(){
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(findViewById(R.id.userInput), InputMethodManager.SHOW_IMPLICIT);
     }
 }
