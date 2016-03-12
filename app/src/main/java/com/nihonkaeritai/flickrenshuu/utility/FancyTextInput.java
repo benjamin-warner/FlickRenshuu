@@ -2,7 +2,6 @@ package com.nihonkaeritai.flickrenshuu.utility;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 
@@ -13,8 +12,7 @@ public abstract class FancyTextInput {
     public FancyTextInput(View inputView){
         userInput = (EditText)inputView;
 
-        currentText = "";
-        startSendListener(userInput);
+        clearInput();
         startTextChangeListener(userInput);
     }
 
@@ -27,11 +25,8 @@ public abstract class FancyTextInput {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                currentText = s.toString();
-                if(before == count) {
-                    handleUserForcedCheck(s.toString());
-                    userInput.setText("");
-                }
+                if(count > 0)
+                    handleInput(s.toString());
             }
 
             @Override
@@ -41,23 +36,16 @@ public abstract class FancyTextInput {
         });
     }
 
-    private void startSendListener(EditText input){
-        input.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if(v == userInput && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
-                    handleUserForcedCheck(getCurrentInput());
-                return false;
-            }
-        });
-    }
-
-    public abstract void handleUserForcedCheck(String s);
+    public abstract void handleInput(String s);
 
     public String getCurrentInput(){
         String input = currentText;
+        clearInput();
+        return input;
+    }
+
+    public void clearInput(){
         currentText = "";
         userInput.setText("");
-        return input;
     }
 }

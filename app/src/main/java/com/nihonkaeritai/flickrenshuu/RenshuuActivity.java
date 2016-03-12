@@ -31,8 +31,8 @@ public class RenshuuActivity extends AppCompatActivity {
     private void startFancyInputWatcher() {
         inputWatcher = new FancyTextInput(findViewById(R.id.userInput)){
             @Override
-            public void handleUserForcedCheck(String s) {
-                handleInputtedText(s);
+            public void handleInput(String s) {
+                checkInput(s);
             }
         };
     }
@@ -42,15 +42,15 @@ public class RenshuuActivity extends AppCompatActivity {
 
         tapToStart.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                 TextView startMessage = (TextView) findViewById(R.id.pushToStartText);
-                 startMessage.setVisibility(TextView.GONE);
+                TextView startMessage = (TextView) findViewById(R.id.pushToStartText);
+                startMessage.setVisibility(TextView.GONE);
 
-                 LinearLayout gameLayout = (LinearLayout) findViewById(R.id.gameLayout);
-                 gameLayout.setVisibility(LinearLayout.VISIBLE);
+                LinearLayout gameLayout = (LinearLayout) findViewById(R.id.gameLayout);
+                gameLayout.setVisibility(LinearLayout.VISIBLE);
 
-                 initGame();
-             }
-         });
+                initGame();
+            }
+        });
     }
 
     private void initGame(){
@@ -65,17 +65,28 @@ public class RenshuuActivity extends AppCompatActivity {
         timer = new FancyCountdownTimer((long)10000, this) { //TODO: turn magic number to user setting
             @Override
             public void onFinish() {
-                kanaRepository.inputIsEqualToKey(inputWatcher.getCurrentInput());
+                kanaRepository.getInputMatchStatus(inputWatcher.getCurrentInput());
                 timer.start();
                 kanaRepository.getNextKana();
             }
         };
     }
 
-    private void handleInputtedText(String input) {
-        if(kanaRepository.inputIsEqualToKey(input)){
-            kanaRepository.getNextKana();
-            timer.start();
+    private void checkInput(String input) {
+        int status = kanaRepository.getInputMatchStatus(input);
+        switch(status){
+            case 0:
+                inputWatcher.clearInput();
+                break;
+            case 1:
+                kanaRepository.getNextKana();
+                inputWatcher.clearInput();
+                timer.start();
+                break;
+            case 2:
+                break;
+            default:
+                break;
         }
     }
 
