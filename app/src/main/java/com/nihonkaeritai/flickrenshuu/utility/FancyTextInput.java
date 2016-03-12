@@ -5,7 +5,6 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 public abstract class FancyTextInput {
     EditText userInput;
@@ -19,7 +18,7 @@ public abstract class FancyTextInput {
         startTextChangeListener(userInput);
     }
 
-    protected void startTextChangeListener(EditText userInput){
+    protected void startTextChangeListener(final EditText userInput){
         userInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -29,6 +28,10 @@ public abstract class FancyTextInput {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 currentText = s.toString();
+                if(before == count) {
+                    handleUserForcedCheck(s.toString());
+                    userInput.setText("");
+                }
             }
 
             @Override
@@ -38,12 +41,13 @@ public abstract class FancyTextInput {
         });
     }
 
-    public void startSendListener(EditText input){
-        input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+    private void startSendListener(EditText input){
+        input.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                handleUserForcedCheck(getCurrentInput());
-                return true;
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(v == userInput && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+                    handleUserForcedCheck(getCurrentInput());
+                return false;
             }
         });
     }

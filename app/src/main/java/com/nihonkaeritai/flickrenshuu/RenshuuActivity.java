@@ -3,11 +3,10 @@ package com.nihonkaeritai.flickrenshuu;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nihonkaeritai.flickrenshuu.repositories.KanaRepository;
@@ -39,20 +38,19 @@ public class RenshuuActivity extends AppCompatActivity {
     }
 
     private void waitForTapToStart() {
-        final RelativeLayout tapToStart = (RelativeLayout) findViewById(R.id.mainLayout);
-        tapToStart.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                TextView startMessage = (TextView) findViewById(R.id.pushToStartText);
-                startMessage.setVisibility(TextView.GONE);
+        final Button tapToStart = (Button) findViewById(R.id.pushToStartText);
 
-                LinearLayout gameLayout = (LinearLayout)findViewById(R.id.gameLayout);
-                gameLayout.setVisibility(LinearLayout.VISIBLE);
+        tapToStart.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                 TextView startMessage = (TextView) findViewById(R.id.pushToStartText);
+                 startMessage.setVisibility(TextView.GONE);
 
-                initGame();
-                return false;
-            }
-        });
+                 LinearLayout gameLayout = (LinearLayout) findViewById(R.id.gameLayout);
+                 gameLayout.setVisibility(LinearLayout.VISIBLE);
+
+                 initGame();
+             }
+         });
     }
 
     private void initGame(){
@@ -64,7 +62,7 @@ public class RenshuuActivity extends AppCompatActivity {
     }
 
     private void initTimer() {
-        timer = new FancyCountdownTimer((long)3000, this) { //TODO: turn magic number to user setting
+        timer = new FancyCountdownTimer((long)10000, this) { //TODO: turn magic number to user setting
             @Override
             public void onFinish() {
                 kanaRepository.inputIsEqualToKey(inputWatcher.getCurrentInput());
