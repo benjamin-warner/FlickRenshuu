@@ -15,12 +15,6 @@
         android:gravity="center_horizontal"
         android:id="@+id/gameLayout">
 
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="64sp"/>
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,7 +47,6 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:id="@+id/userInput"
-            android:inputType="textNoSuggestions"
             android:imeOptions="normal"/>
 
     </LinearLayout>

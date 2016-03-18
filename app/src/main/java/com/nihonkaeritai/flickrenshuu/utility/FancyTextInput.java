@@ -1,6 +1,7 @@
 package com.nihonkaeritai.flickrenshuu.utility;
 
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -11,6 +12,7 @@ public abstract class FancyTextInput {
 
     public FancyTextInput(View inputView){
         userInput = (EditText)inputView;
+        userInput.setVisibility(View.INVISIBLE);
 
         clearInput();
         startTextChangeListener(userInput);
@@ -37,12 +39,6 @@ public abstract class FancyTextInput {
     }
 
     public abstract void handleInput(String s);
-
-    public String getCurrentInput(){
-        String input = currentText;
-        clearInput();
-        return input;
-    }
 
     public void clearInput(){
         currentText = "";

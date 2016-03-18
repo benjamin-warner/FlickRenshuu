@@ -61,7 +61,6 @@
         <item>だた</item>
         <item>ぢち</item>
         <item>づつ</item>
-        <item>っつ</item>
         <item>でて</item>
         <item>どと</item>
         <item>ばは</item>
@@ -82,6 +81,6 @@
         <item>ぅう</item>
         <item>ぇえ</item>
         <item>ぉお</item>
+        <item>っつ</item>
     </string-array>
-
 </resources>

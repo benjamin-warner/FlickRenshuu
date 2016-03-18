@@ -53,11 +53,10 @@ public class KanaRepository {
 
     public int getInputMatchStatus(String input){
         if(input.equals(kanaDictionary[currentKanaIndex].kana))
-            return 1;
+            return MatchStatus.correct;
         else if(input.equals(kanaDictionary[currentKanaIndex].parent))
-            return 2;
-        else
-            return 0;
+            return MatchStatus.inProgress;
+        return MatchStatus.incorrect;
     }
 
     private void generateOrderCombination(){
@@ -74,5 +73,11 @@ public class KanaRepository {
         public String kana;
         public String parent;
         public boolean isChisai;
+    }
+
+    public static class MatchStatus {
+        public static int incorrect = 0;
+        public static int correct = 1;
+        public static int inProgress = 2;
     }
 }

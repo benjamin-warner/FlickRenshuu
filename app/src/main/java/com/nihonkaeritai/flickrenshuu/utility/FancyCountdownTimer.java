@@ -26,6 +26,10 @@ public abstract class FancyCountdownTimer extends CountDownTimer {
 
     }
 
+    public void stop(){
+        this.cancel();
+    }
+
     public void setDisplay(String text){
         timeTextView.setText(text);
     }

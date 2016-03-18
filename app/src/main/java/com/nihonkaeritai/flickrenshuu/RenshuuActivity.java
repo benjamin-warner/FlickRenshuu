@@ -24,7 +24,6 @@ public class RenshuuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_renshuu);
 
         kanaRepository = new KanaRepository(this.getApplicationContext(), findViewById(R.id.kanaKey), findViewById(R.id.chisaiIndicator));
-
         waitForTapToStart();
     }
 
@@ -49,49 +48,49 @@ public class RenshuuActivity extends AppCompatActivity {
                 gameLayout.setVisibility(LinearLayout.VISIBLE);
 
                 initGame();
+                startNextRound();
             }
         });
+    }
+
+    private void startNextRound() {
+        kanaRepository.getNextKana();
+        inputWatcher.clearInput();
+        timer.start();
     }
 
     private void initGame(){
         startFancyInputWatcher();
         initTimer();
-        kanaRepository.getNextKana();
         openKeyboard();
-        timer.start();
     }
 
     private void initTimer() {
-        timer = new FancyCountdownTimer((long)10000, this) { //TODO: turn magic number to user setting
+        timer = new FancyCountdownTimer((long)3000, this) { //TODO: turn magic number to user setting
             @Override
             public void onFinish() {
-                kanaRepository.getInputMatchStatus(inputWatcher.getCurrentInput());
-                timer.start();
-                kanaRepository.getNextKana();
+                startNextRound();
             }
         };
     }
 
     private void checkInput(String input) {
         int status = kanaRepository.getInputMatchStatus(input);
-        switch(status){
-            case 0:
-                inputWatcher.clearInput();
-                break;
-            case 1:
-                kanaRepository.getNextKana();
-                inputWatcher.clearInput();
-                timer.start();
-                break;
-            case 2:
-                break;
-            default:
-                break;
+        if(status == KanaRepository.MatchStatus.incorrect)
+            inputWatcher.clearInput();
+        if(status == KanaRepository.MatchStatus.correct) {
+            startNextRound();
         }
     }
 
     private void openKeyboard(){
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(findViewById(R.id.userInput), InputMethodManager.SHOW_IMPLICIT);
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        timer.cancel();
     }
 }
