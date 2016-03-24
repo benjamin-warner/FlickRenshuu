@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Flick Renshuu</string>
     <string name="chisai">小</string>
+    <string name="startMessage">Tap to start!</string>
     <string-array name="kana">
         <item>あ</item>
         <item>い</item>
