@@ -23,7 +23,10 @@ public class RenshuuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_renshuu);
 
-        kanaRepository = new KanaRepository(this.getApplicationContext(), findViewById(R.id.kanaKey), findViewById(R.id.chisaiIndicator));
+        View kanaKeyView = findViewById(R.id.kanaKey);
+        View chisaiIndicator =  findViewById(R.id.chisaiIndicator);
+        kanaRepository = new KanaRepository(this.getApplicationContext(), kanaKeyView, chisaiIndicator);
+
         waitForTapToStart();
     }
 

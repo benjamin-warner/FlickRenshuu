@@ -49,13 +49,17 @@ public class KanaRepository {
 
         currentKanaIndex++;
         kanaKey.setText(kanaDictionary[currentKanaIndex].kana);
+        kanaKey.setTextColor(0xFF000000);
     }
 
     public int getInputMatchStatus(String input){
-        if(input.equals(kanaDictionary[currentKanaIndex].kana))
+        if(input.equals(kanaDictionary[currentKanaIndex].kana)) {
             return MatchStatus.correct;
-        else if(input.equals(kanaDictionary[currentKanaIndex].parent))
+        }
+        else if(input.equals(kanaDictionary[currentKanaIndex].parent)) {
             return MatchStatus.inProgress;
+        }
+        kanaKey.setTextColor(0xFFFF0000);
         return MatchStatus.incorrect;
     }
 
