@@ -94,6 +94,8 @@ public class RenshuuActivity extends AppCompatActivity {
     @Override
     public void onPause(){
         super.onPause();
-        timer.cancel();
+        if(timer != null) {
+            timer.cancel();
+        }
     }
 }
