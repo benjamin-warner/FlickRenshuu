@@ -5,14 +5,10 @@
     android:layout_height="match_parent"
     android:id="@+id/mainMenuLayout">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Play"
-        android:textSize="72sp"
-        android:onClick="startGame"
-        android:id="@+id/playGame"/>
-
+    <!--
+    <fragment android:name="com.nihonkaeritai.flickrenshuu.fragments.TitleFragment"
+        android:id="@+id/title_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/> -->
 
 </RelativeLayout>
