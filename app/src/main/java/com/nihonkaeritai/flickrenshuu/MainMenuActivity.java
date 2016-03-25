@@ -20,14 +20,14 @@ public class MainMenuActivity extends AppCompatActivity {
 
         fragmentManager = getSupportFragmentManager();
         Fragment titleFragment = new TitleFragment();
-        addFragment(titleFragment, "main");
-
+        swapFragment(titleFragment, "main");
     }
+
     public void menuButtonListener(View v){
         switch (v.getId()) {
             case R.id.startKanaAttack:
                 Fragment kanaAttackFragment = new KanaAttackTitleFragment();
-                addFragment(kanaAttackFragment, "kana");
+                swapFragment(kanaAttackFragment, "kana");
         }
     }
 
@@ -39,29 +39,21 @@ public class MainMenuActivity extends AppCompatActivity {
         }
     }
 
-    private void addFragment(Fragment fragment, String newFragmentTag){
+    private void swapFragment(Fragment fragment, String tag){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        if(fragmentManager.getFragments() == null) {
-            transaction.add(R.id.mainMenuLayout, fragment, newFragmentTag);
-            transaction.addToBackStack(newFragmentTag);
-        }
-        else{
-            transaction.replace(R.id.mainMenuLayout,fragment,newFragmentTag);
-        }
-        transaction.commit();
-    }
-
-    private void swapFragment(String fragmentTag){
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.mainMenuLayout, fragmentManager.findFragmentByTag(fragmentTag));
+        transaction.replace(R.id.mainMenuLayout, fragment,tag);
+        transaction.addToBackStack(tag);
         transaction.commit();
     }
 
     @Override
-    public void onBackPressed(){
-        String currentFragmentTag = fragmentManager.findFragmentById(R.id.mainMenuLayout).getTag();
-        if(!currentFragmentTag.equals("main")) {
-            swapFragment("main");
+    public void onBackPressed() {
+        Fragment currentFragment = fragmentManager.findFragmentById(R.id.mainMenuLayout);
+        if (!(currentFragment instanceof TitleFragment)) {
+            Fragment mainMenu = fragmentManager.findFragmentByTag("main");
+            swapFragment(mainMenu, "main");
+        }else{
+            finish();
         }
     }
 }
