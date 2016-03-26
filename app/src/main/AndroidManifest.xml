@@ -19,7 +19,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".RenshuuActivity"/>
+        <activity
+            android:name=".RenshuuActivity"
+            android:windowSoftInputMode="stateVisible"/>
 
     </application>
 

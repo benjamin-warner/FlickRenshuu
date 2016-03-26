@@ -22,7 +22,7 @@ public class RenshuuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_renshuu);
-
+        
         View kanaKeyView = findViewById(R.id.kanaKey);
         View chisaiIndicator =  findViewById(R.id.chisaiIndicator);
         kanaRepository = new KanaRepository(this.getApplicationContext(), kanaKeyView, chisaiIndicator);
@@ -65,7 +65,6 @@ public class RenshuuActivity extends AppCompatActivity {
     private void initGame(){
         startFancyInputWatcher();
         initTimer();
-        openKeyboard();
     }
 
     private void initTimer() {
@@ -84,11 +83,6 @@ public class RenshuuActivity extends AppCompatActivity {
         if(status == KanaRepository.MatchStatus.correct) {
             startNextRound();
         }
-    }
-
-    private void openKeyboard(){
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(findViewById(R.id.userInput), InputMethodManager.SHOW_IMPLICIT);
     }
 
     @Override

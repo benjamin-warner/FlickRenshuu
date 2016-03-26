@@ -53,8 +53,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="50sp"
+        android:layout_gravity="center_horizontal"
+        android:textSize="42sp"
         android:text="@string/startMessage"
         android:id="@+id/pushToStartText"/>
 
