@@ -13,7 +13,7 @@ public class ScoreBank {
     public ScoreBank(int basePoints, int consecutiveBonus){
         points = 0;
         _basePoints = basePoints;
-        _consecutiveMod = 10;
+        _consecutiveMod = consecutiveBonus;
     }
 
     public void setDisplayReference(View displayView){
