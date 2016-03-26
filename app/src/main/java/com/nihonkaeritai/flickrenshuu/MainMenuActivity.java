@@ -10,24 +10,26 @@ import android.view.View;
 
 import com.nihonkaeritai.flickrenshuu.fragments.KanaAttackTitleFragment;
 import com.nihonkaeritai.flickrenshuu.fragments.TitleFragment;
+import com.nihonkaeritai.flickrenshuu.managers.FancyFragmentManager;
 
 public class MainMenuActivity extends AppCompatActivity {
-    FragmentManager fragmentManager;
+    FancyFragmentManager fragmentManager;
     @Override
     public void onCreate(Bundle bundle){
         super.onCreate(bundle);
         setContentView(R.layout.activity_main_menu);
 
-        fragmentManager = getSupportFragmentManager();
+        fragmentManager = new FancyFragmentManager(this);
+
         Fragment titleFragment = new TitleFragment();
-        swapFragment(titleFragment, "main");
+        fragmentManager.swapFragment(titleFragment, "main");
     }
 
     public void menuButtonListener(View v){
         switch (v.getId()) {
             case R.id.startKanaAttack:
                 Fragment kanaAttackFragment = new KanaAttackTitleFragment();
-                swapFragment(kanaAttackFragment, "kana");
+                fragmentManager.swapFragment(kanaAttackFragment, "kana");
         }
     }
 
@@ -39,19 +41,12 @@ public class MainMenuActivity extends AppCompatActivity {
         }
     }
 
-    private void swapFragment(Fragment fragment, String tag){
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.mainMenuLayout, fragment,tag);
-        transaction.addToBackStack(tag);
-        transaction.commit();
-    }
-
     @Override
     public void onBackPressed() {
-        Fragment currentFragment = fragmentManager.findFragmentById(R.id.mainMenuLayout);
+        Fragment currentFragment = fragmentManager.getContainerFragment(R.id.mainMenuLayout);
         if (!(currentFragment instanceof TitleFragment)) {
-            Fragment mainMenu = fragmentManager.findFragmentByTag("main");
-            swapFragment(mainMenu, "main");
+            Fragment mainMenu = fragmentManager.getFragmentByTag("main");
+            fragmentManager.swapFragment(mainMenu, "main");
         }else{
             finish();
         }
