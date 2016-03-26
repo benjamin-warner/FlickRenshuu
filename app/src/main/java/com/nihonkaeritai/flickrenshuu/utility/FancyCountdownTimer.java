@@ -22,17 +22,7 @@ public abstract class FancyCountdownTimer extends CountDownTimer {
         displayTime();
     }
 
-    public interface onFinish{
-
-    }
-
-    public void stop(){
-        this.cancel();
-    }
-
-    public void setDisplay(String text){
-        timeTextView.setText(text);
-    }
+    public interface onFinish{}
 
     public void displayTime(){
         timeTextView.setText(timeRemainingToFormattedString());
@@ -44,5 +34,9 @@ public abstract class FancyCountdownTimer extends CountDownTimer {
         long hundredths = ((timeRemaining - seconds * 1000) - tenths * 100) / 10;
 
         return seconds + ":" + tenths + hundredths;
+    }
+
+    public int remainingTimeInMillis(){
+        return (int)timeRemaining;
     }
 }
