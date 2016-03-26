@@ -31,7 +31,8 @@ public class RenshuuActivity extends AppCompatActivity {
         kanaRepository = new KanaRepository(this.getApplicationContext(), kanaKeyView, chisaiIndicator);
 
         userPoints = new ScoreBank(100,10);
-
+        View displayPoints = findViewById(R.id.pointDisplay);
+        userPoints.setDisplayReference(displayPoints);
         waitForTapToStart();
     }
 
